@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Libros{% endblock %}
+
+{% block content %}
+<h1>Libros</h1>
+
+<ul>
+    {% for libro in libros %}
+        <li>Titulo: <a href="/libros/{{ libro.id }}">{{ libro.titulo }}</a> Autor: {{ libro.autor }}</li>
+        
+    {% endfor %}
+</ul>
+
+<button onclick="location.href='{{ url_for('libros.crear') }}'">Crear nuevo libro</button>
+    {% endblock %}

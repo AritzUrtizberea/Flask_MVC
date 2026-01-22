@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Libros{% endblock %}
+
+{% block content %}
+<h1>Libros</h1>
+
+<div class="grid-container">
+    {% for libro in libros %}
+        <div class="card">
+            <h1>Titulo: {{ libro.titulo }}</h1><div class="autor">Autor: {{ libro.autor }}</div><div class="resumen">{{ libro.resumen }}</div>
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

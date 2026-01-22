@@ -1,0 +1,29 @@
+<form method="post" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div>
+        <label for="{{ form.titulo.id }}">{{ form.titulo.label }}</label>
+        {{ form.titulo }}
+        {% for error in form.titulo.errors %}
+            <p role="alert">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div>
+        <label for="{{ form.autor.id }}">{{ form.autor.label }}</label>
+        {{ form.autor }}
+        {% for error in form.autor.errors %}
+            <p role="alert">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    <div>
+        <label for="{{ form.resumen.id }}">{{ form.resumen.label }}</label>
+        {{ form.resumen }}
+        {% for error in form.resumen.errors %}
+            <p role="alert">{{ error }}</p>
+        {% endfor %}
+    </div>
+
+    {{ form.submit }}
+</form>

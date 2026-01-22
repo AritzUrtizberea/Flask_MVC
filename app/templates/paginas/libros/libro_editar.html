@@ -1,0 +1,14 @@
+
+{% extends "base.html" %}
+{% block title %}Editar libro{% endblock %}
+
+
+{% block content %}
+<h1>Detalles del libro</h1>
+<p><strong>Título:</strong> {{ libro.titulo }}</p>
+<p><strong>Autor:</strong> {{ libro.autor }}</p>    
+<p><strong>Resumen:</strong> {{ libro.resumen }}</p>
+<h1>Editar libro con flask-WTF</h1>
+
+{%include 'componentes/libro_form.html'%}
+{% endblock %}
