@@ -1,21 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, SubmitField
-from wtforms.validators import DataRequired, Length
+from wtforms import StringField, IntegerField, TextAreaField, SubmitField
+# IMPORTANTE: Asegúrate de tener DataRequired aquí
+from wtforms.validators import DataRequired, Length 
 
 class LibroForm(FlaskForm):
-    titulo = StringField(
-        "Título",
-        validators=[DataRequired(message="El título es obligatorio"), Length(max=200)]
-    )
-
-    autor = StringField(
-        "Autor",
-        validators=[DataRequired(), Length(max=100)]
-    )
-
-    resumen = TextAreaField(
-        "Resumen",
-        validators=[Length(min=5, max=1000)]
-    )
-
-    submit = SubmitField("Guardar")
+    # Añade validators=[DataRequired()] a los campos obligatorios
+    titulo = StringField('Título', validators=[DataRequired(), Length(max=100)])
+    autor = StringField('Autor', validators=[DataRequired(), Length(max=100)])
+    genero = StringField('Género', validators=[DataRequired()])
+    anio_publicacion = IntegerField('Año', validators=[DataRequired()])
+    resumen = TextAreaField('Resumen') # Este puede ser opcional
+    submit = SubmitField('Guardar')

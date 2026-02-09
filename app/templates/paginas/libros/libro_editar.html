@@ -1,14 +1,27 @@
-
-{% extends "base.html" %}
-{% block title %}Editar libro{% endblock %}
-
+{% extends 'base.html' %}
 
 {% block content %}
-<h1>Detalles del libro</h1>
-<p><strong>Título:</strong> {{ libro.titulo }}</p>
-<p><strong>Autor:</strong> {{ libro.autor }}</p>    
-<p><strong>Resumen:</strong> {{ libro.resumen }}</p>
-<h1>Editar libro con flask-WTF</h1>
+<h2>Editar Libro</h2>
 
-{%include 'componentes/libro_form.html'%}
+<form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    <div class="mb-3">
+        {{ form.titulo.label(class="form-label") }}
+        {{ form.titulo(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.autor.label(class="form-label") }}
+        {{ form.autor(class="form-control") }}
+    </div>
+
+    <div class="mb-3">
+        {{ form.genero.label(class="form-label") }}
+        {{ form.genero(class="form-control") }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a href="{{ url_for('libros.listar') }}" class="btn btn-secondary">Cancelar</a>
+</form>
 {% endblock %}

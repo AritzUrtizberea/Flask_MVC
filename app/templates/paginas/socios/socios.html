@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Listado de Socios{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2>Listado de Socios</h2>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{{ url_for('socios.crear') }}">
+                + Registrar Nuevo Socio
+            </a>
+        </div>
+    </div>
+    <div class="row mb-3 align-items-center">
+        <div class="col-md-6">
+            <form action="{{ url_for('socios.listar') }}" method="GET" class="d-flex">
+                <input class="form-control me-2" type="search" name="busqueda" placeholder="Nombre o Email..."
+                    value="{{ request.args.get('busqueda', '') }}">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </form>
+        </div>
+        <div class="col-md-6 text-end">
+            <a href="{{ url_for('socios.listar') }}" class="btn btn-outline-secondary">Ver Todos</a>
+            <a href="{{ url_for('socios.listar', prestamos=1) }}" class="btn btn-outline-info">Ver Socios con Libros</a>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for socio in socios %}
+                        <tr>
+                            <td>{{ socio.id }}</td>
+                            <td>{{ socio.nombre }}</td>
+                            <td>{{ socio.apellido }}</td>
+                            <td>{{ socio.email }}</td>
+                            <td>
+                                <a href="{{ url_for('socios.editar', id=socio.id) }}"
+                                    class="btn btn-sm btn-warning">Editar</a>
+                                <a href="{{ url_for('socios.borrar', id=socio.id) }}" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('¿Seguro?')">Borrar</a>
+                            </td>
+                        </tr>
+
+                        {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted py-3">
+                                No hay socios registrados todavía.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

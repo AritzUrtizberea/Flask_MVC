@@ -1,10 +1,56 @@
-
 {% extends "base.html" %}
-{% block title %}Editar libro{% endblock %}
-
 
 {% block content %}
+<div class="container">
+    <h2>Crear Nuevo Libro</h2>
+    <hr>
 
-<h1>Crear libro con flask-WTF</h1>
-{%include 'componentes/libro_form.html'%}
+    <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            <label for="{{ form.titulo.id }}">{{ form.titulo.label }}</label>
+            {{ form.titulo(class="form-control") }} {% for error in form.titulo.errors %}
+                <p class="text-danger" role="alert">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.autor.id }}">{{ form.autor.label }}</label>
+            {{ form.autor(class="form-control") }}
+            {% for error in form.autor.errors %}
+                <p class="text-danger" role="alert">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.genero.id }}">{{ form.genero.label }}</label>
+            {{ form.genero(class="form-control") }}
+            {% for error in form.genero.errors %}
+                <p class="text-danger" role="alert">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.anio_publicacion.id }}">{{ form.anio_publicacion.label }}</label>
+            {{ form.anio_publicacion(class="form-control") }}
+            {% for error in form.anio_publicacion.errors %}
+                <p class="text-danger" role="alert">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label for="{{ form.resumen.id }}">{{ form.resumen.label }}</label>
+            {{ form.resumen(class="form-control", rows=4) }}
+            {% for error in form.resumen.errors %}
+                <p class="text-danger" role="alert">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <br>
+        
+        {{ form.submit(class="btn btn-primary") }}
+        <a href="{{ url_for('libros.listar') }}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
 {% endblock %}
