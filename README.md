@@ -69,7 +69,7 @@ pip install -r requirements.txt
 Con el entorno activado, lanza el servidor de desarrollo:
 
 ```bash
-flask run
+run.py
 ```
 
 Accede a la aplicación en tu navegador:
