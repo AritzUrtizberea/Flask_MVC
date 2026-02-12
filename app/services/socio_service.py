@@ -10,22 +10,21 @@ class SocioService:
 
         # R18: Filtro para ver solo los que tienen libros
         if solo_con_prestamos:
-            # TRUCO DE ARQUITECTURA:
-            # En vez de importar el modelo Libro, usamos la relación que ya
-            # definiste dentro del modelo Socio. ¡Es más limpio!
             query = query.join(Socio.libros)
 
         # R16: Buscador (Nombre O Apellido O Email)
         if busqueda:
             filtro = f'%{busqueda}%'
+            # ⚠️ OJO: Asegúrate de que en tu modelo Socio existe el campo 'apellido'.
+            # Si solo tienes 'nombre', borra la línea de Socio.apellido.
             query = query.filter(or_(
                 Socio.nombre.ilike(filtro),
-                Socio.apellido.ilike(filtro),
+                Socio.apellido.ilike(filtro), 
                 Socio.email.ilike(filtro)
             ))
-
-        return query.all()
-    
+        
+        # Añadimos distinct() por si acaso el join duplica filas
+        return query.distinct().all()
     @staticmethod
     def obtener_por_id(id):
         return Socio.query.get(id)

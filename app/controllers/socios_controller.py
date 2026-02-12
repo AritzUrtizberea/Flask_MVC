@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from app.services.socio_service import SocioService
 from app.forms.socio_form import SocioForm
+from app.forms.socio_buscar_form import SocioBuscarForm
 from app.utils.decorators import login_required # <--- 1. IMPORTAMOS EL DECORADOR
 
 socios_bp = Blueprint('socios', __name__, url_prefix='/socios')
@@ -8,12 +9,25 @@ socios_bp = Blueprint('socios', __name__, url_prefix='/socios')
 # --- LISTAR (Público) ---
 @socios_bp.route('/') 
 def listar():
-    busqueda = request.args.get('busqueda')
+    # 1. Instanciamos el formulario (para la cajita de búsqueda)
+    form_busqueda = SocioBuscarForm(request.args, meta={'csrf': False})
+    
+    busqueda = None
+    
+    # 2. Si escribieron algo en el buscador, lo guardamos
+    if form_busqueda.validate():
+        busqueda = form_busqueda.busqueda.data
+        
+    # 3. Recogemos el filtro de préstamos de la URL (si existe)
     solo_con_prestamos = request.args.get('prestamos')
     
-    socios = SocioService.obtener_todos(busqueda=busqueda, solo_con_prestamos=solo_con_prestamos)
+    # 4. LLAMADA ÚNICA: Tu función ya sabe qué hacer con los dos parámetros
+    socios = SocioService.obtener_todos(
+        busqueda=busqueda, 
+        solo_con_prestamos=solo_con_prestamos
+    )
     
-    return render_template('paginas/socios/socios.html', socios=socios)
+    return render_template('paginas/socios/socios.html', socios=socios, form_busqueda=form_busqueda)
 
 # --- CREAR (Protegido) ---
 @socios_bp.route('/crear', methods=['GET', 'POST'])

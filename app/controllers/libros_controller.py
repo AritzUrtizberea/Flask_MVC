@@ -3,6 +3,7 @@ from app.forms.libro_form import LibroForm
 from app.forms.prestamo_form import PrestamoForm
 from app.services.libros_service import LibroService
 from app.services.socio_service import SocioService
+from app.forms.libro_form_buscar import LibroBuscarForm
 from app.utils.decorators import login_required  # <--- IMPORTANTE
 
 libros_bp = Blueprint('libros', __name__)
@@ -10,12 +11,27 @@ libros_bp = Blueprint('libros', __name__)
 # --- R1: LISTAR (Público - Sin login_required) ---
 @libros_bp.route('/libros')
 def listar():
-    solo_disponibles = request.args.get('disponibles')
-    busqueda = request.args.get('busqueda')
+    # 1. Instanciamos el formulario pasándole los datos de la URL (request.args)
+    # IMPORTANTE: meta={'csrf': False} es necesario porque es un formulario GET
+    form_busqueda = LibroBuscarForm(request.args, meta={'csrf': False})
     
+    # Recogemos el filtro de disponibles (ese lo mantenemos igual si no está en el form)
+    solo_disponibles = request.args.get('disponibles')
+    
+    # Variable para el texto a buscar
+    busqueda = None
+    
+    # 2. Si el formulario es válido y tiene datos, sacamos la búsqueda de ahí
+    if form_busqueda.validate():
+        busqueda = form_busqueda.busqueda.data
+    
+    # 3. Llamamos al servicio pasando los parámetros
     libros = LibroService.obtener_todos(solo_disponibles=solo_disponibles, busqueda=busqueda)
     
-    return render_template('paginas/libros/libros.html', libros=libros)
+    # 4. Pasamos 'form_busqueda' a la plantilla para poder pintarlo
+    return render_template('paginas/libros/libros.html', 
+                           libros=libros, 
+                           form_busqueda=form_busqueda)
 
 # --- GRID (Público - Sin login_required) ---
 @libros_bp.route('/libros/grid')
@@ -52,7 +68,8 @@ def editar(id):
             id,
             form.titulo.data,
             form.autor.data,
-            form.genero.data
+            form.genero.data,
+            form.anio_publicacion.data
         )
         flash('Libro actualizado correctamente', 'success')
         return redirect(url_for('libros.listar'))

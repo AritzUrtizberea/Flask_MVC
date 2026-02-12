@@ -35,12 +35,13 @@ class LibroService:
         return nuevo_libro
 
     @staticmethod
-    def actualizar_libro(id, titulo, autor, genero):
+    def actualizar_libro(id, titulo, autor, genero, anio):
         libro = LibroService.obtener_por_id(id)
         if libro:
             libro.titulo = titulo
             libro.autor = autor
             libro.genero = genero
+            libro.anio_publicacion = anio
             db.session.commit()
             return True
         return False

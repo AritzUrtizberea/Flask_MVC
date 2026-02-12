@@ -12,13 +12,17 @@
     <div class="row mb-3 align-items-center">
         <div class="col-md-6">
             <form action="{{ url_for('libros.listar') }}" method="GET" class="d-flex">
-                <input class="form-control me-2" type="search" name="busqueda" placeholder="Buscar título..." aria-label="Buscar">
-                <button class="btn btn-primary" type="submit">Buscar</button>
+
+                {{ form_busqueda.busqueda(class="form-control me-2") }}
+
+                {{ form_busqueda.submit(class="btn btn-primary") }}
+
             </form>
         </div>
         <div class="col-md-6 text-end">
             <a href="{{ url_for('libros.listar') }}" class="btn btn-outline-secondary">Ver Todos</a>
-            <a href="{{ url_for('libros.listar', disponibles=1) }}" class="btn btn-outline-success">Ver Solo Disponibles</a>
+            <a href="{{ url_for('libros.listar', disponibles=1) }}" class="btn btn-outline-success">Ver Solo
+                Disponibles</a>
         </div>
     </div>
 
@@ -29,7 +33,10 @@
                 <th>Título</th>
                 <th>Autor</th>
                 <th>Género</th>
-                <th>Estado (R10)</th> <th>Gestión</th>      <th>Acciones</th>     </tr>
+                <th>Estado (R10)</th>
+                <th>Gestión</th>
+                <th>Acciones</th>
+            </tr>
         </thead>
         <tbody>
             {% for libro in libros %}
@@ -38,26 +45,26 @@
                 <td class="fw-bold">{{ libro.titulo }}</td>
                 <td>{{ libro.autor }}</td>
                 <td>{{ libro.genero|default("-", true) }}</td>
-                
+
                 <td>
                     {% if libro.socio %}
-                        <span class="badge bg-warning text-dark">
-                            Prestado a: {{ libro.socio.nombre }} {{ libro.socio.apellido }}
-                        </span>
+                    <span class="badge bg-warning text-dark">
+                        Prestado a: {{ libro.socio.nombre }} {{ libro.socio.apellido }}
+                    </span>
                     {% else %}
-                        <span class="badge bg-success">Disponible</span>
+                    <span class="badge bg-success">Disponible</span>
                     {% endif %}
                 </td>
 
                 <td>
                     {% if libro.socio %}
-                        <a href="{{ url_for('libros.devolver', id=libro.id) }}" class="btn btn-sm btn-outline-dark">
-                            ↩️ Devolver
-                        </a>
+                    <a href="{{ url_for('libros.devolver', id=libro.id) }}" class="btn btn-sm btn-outline-dark">
+                        ↩️ Devolver
+                    </a>
                     {% else %}
-                        <a href="{{ url_for('libros.prestar', id=libro.id) }}" class="btn btn-sm btn-outline-primary">
-                            📚 Prestar
-                        </a>
+                    <a href="{{ url_for('libros.prestar', id=libro.id) }}" class="btn btn-sm btn-outline-primary">
+                        📚 Prestar
+                    </a>
                     {% endif %}
                 </td>
 

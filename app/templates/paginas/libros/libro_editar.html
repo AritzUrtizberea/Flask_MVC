@@ -7,19 +7,44 @@
     {{ form.hidden_tag() }}
 
     <div class="mb-3">
-        {{ form.titulo.label(class="form-label") }}
-        {{ form.titulo(class="form-control") }}
-    </div>
+            {{ form.titulo.label(class="form-label") }}
+            {{ form.titulo(class="form-control") }}
+            {% for error in form.titulo.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
 
-    <div class="mb-3">
-        {{ form.autor.label(class="form-label") }}
-        {{ form.autor(class="form-control") }}
-    </div>
+        <div class="mb-3">
+            {{ form.autor.label(class="form-label") }}
+            {{ form.autor(class="form-control") }}
+            {% for error in form.autor.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
 
-    <div class="mb-3">
-        {{ form.genero.label(class="form-label") }}
-        {{ form.genero(class="form-control") }}
-    </div>
+        <div class="mb-3">
+            {{ form.genero.label(class="form-label") }}
+            {{ form.genero(class="form-control") }}
+            {% for error in form.genero.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.anio_publicacion.label(class="form-label") }}
+            {{ form.anio_publicacion(class="form-control", placeholder="Ej: 2024") }}
+            {% for error in form.anio_publicacion.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.resumen.label(class="form-label") }}
+            {{ form.resumen(class="form-control", rows="3") }}
+            {% for error in form.resumen.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
 
     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     <a href="{{ url_for('libros.listar') }}" class="btn btn-secondary">Cancelar</a>
